@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joguinho em JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="script.js" defer></script>
+    <script type="module" src="gameFunctions/buyGun.js" defer></script>
+</head>
+<body>
+    <div id="nav">
+        <div id="guns">
+            <div id="money"></div>
+            <button>Pistol</button>
+            <button>Shootgun</button>
+            <span id="error"></span>
+        </div>
+        
+        <div>
+            <button id="start">Iniciar</button>
+            <button id="pause">Pausar</button>
+        </div>
+        <div id="timer">
+            <div id="reload">
+
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div id="playerOne"><div class="gun"></div><div class="life"></div></div>
+        <div id="bullets"></div>
+        <p id="ammo"></p>
+    </div>
+</body>
+</html>

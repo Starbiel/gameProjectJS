@@ -1,0 +1,32 @@
+gameStatus: 
+
+--Troca de modo: ao trocar varias vezes entre pausado e em jogo a velocidade do personagem aumenta (resolvido)
+--remover os events listener com sucesso(resolvido)
+
+buygun:
+
+--Sistema para não comprar a mesma arma
+--Crescimo de dano ao comprar outras armas, igual ao gameStatus;(resolvido)
+
+enemy:
+
+--fazer o inimigo chegar mais perto(feito)
+--ao levar tiro reduzir vidar(feito)
+--attackPlayer está bugado(arrumado)
+--gerar inimigos com arma, e sem
+
+player: 
+
+--posibilitar andar em diagonal e de forma mais limpa(feito);
+
+realizacao geral:
+
+--reduzir o tempo de spawn quanto mais tempo o jogo tiver;
+--funcao para verificar crossover;(feito)
+--criar uma função de aleatoriadade;
+--limpar um pouco mais as condições;'x
+
+futuro:
+
+--criar uma geração de obstaculos dinamica
+
