@@ -15,7 +15,7 @@ class Enemy {
 
     death(dropCoin) {
         if(this.life <= 0) {
-            if (Math.floor(Math.random() * 100) < 33) {
+            if (Math.floor(Math.random() * 100) < 100) {
                 let newCoin = generateCoins(this.enemy.getBoundingClientRect().y, this.enemy.getBoundingClientRect().x)
                 dropCoin.push(new Coin(newCoin));
             }

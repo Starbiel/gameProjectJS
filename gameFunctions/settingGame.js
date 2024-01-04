@@ -90,6 +90,7 @@ export function generateBullet(ang, gunElement) {
     return div;
 }
 
+// elemento do player, array de parede, velocidade do player
 export function wallColition(obj1, wallArray, speed) {
     let auxBoll = true;
     let wallTouched;

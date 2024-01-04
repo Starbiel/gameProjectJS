@@ -53,12 +53,10 @@ export class Player {
     }
 
     take(coin) {
-        if(coin !== '') {
-            if(crossoverTester(this.playerType, coin.coin)) {
-                this.money += coin.value;
-                coin.destructor();
-                return true;
-            }
+        if(crossoverTester(this.playerType, coin.coin)) {
+            this.money += coin.value;
+            coin.destructor();
+            return true;
         }
     }
 
