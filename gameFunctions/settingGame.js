@@ -1,4 +1,5 @@
-
+import { lastDirectionFix } from "../objectSets/playerSet.js";
+import { personOne } from "../script.js";
 class Config {
     //vw and vh
     //gameArea = [80,50];
@@ -24,7 +25,7 @@ class Config {
         else {
             this.playerSpeed = 2;
             this.moneyValue = 320;
-            this.speedSpawn = 2000;
+            this.speedSpawn = 4000;
             this.enemyLife = 150;
             this.enemySpeed = 1;
             this.speedEnemyShoot = 7;
@@ -50,44 +51,19 @@ class Config {
 export let ConfigReady = new Config('hard', [80,60]);
 
 
-//class with functions for create walls
-
-class WallFunction {
-    editionMode = false;
-
-    enableEdition() {
-        this.editionMode = true;
-    }
-
-    basicDiv(divClass, event) {
-        let div = document.createElement('div');
-        div.classList.add(divClass)   
-        if(this.editionMode) {
-            div.style.top = event.clientY + 'px';
-            div.style.left = event.clientX + 'px';
-        }
-        document.querySelector('#container').appendChild(div);
-    }
-
-    lineWall(event) {
-        this.basicDiv('lineWall', event)
-    }
-}
-
-export let wallFunctions = new WallFunction;
-
 //arg function are html elements(obj);
 
 export function crossoverTester(obj1, obj2) {
     return (
         obj1.getBoundingClientRect().x < obj2.getBoundingClientRect().x + obj2.getBoundingClientRect().width &&
-        obj1.getBoundingClientRect().x + obj1.getBoundingClientRect().width > obj2.getBoundingClientRect().x &&
-        obj1.getBoundingClientRect().y < obj2.getBoundingClientRect().y+ obj2.getBoundingClientRect().height &&
+        obj1.getBoundingClientRect().x + obj1.getBoundingClientRect().width  > obj2.getBoundingClientRect().x &&
+        obj1.getBoundingClientRect().y < obj2.getBoundingClientRect().y + obj2.getBoundingClientRect().height &&
         obj1.getBoundingClientRect().y + obj1.getBoundingClientRect().height > obj2.getBoundingClientRect().y
     );
 }
 
-//Position's player
+
+//Position's enemy
 export function generateCoins(y, x) {
     let coins = document.createElement('div');
     coins.classList.add('coin');
@@ -114,4 +90,40 @@ export function generateBullet(ang, gunElement) {
     return div;
 }
 
+export function wallColition(obj1, wallArray, speed) {
+    let auxBoll = true;
+    let wallTouched;
+
+    if(!(ConfigReady.containerAll.height+ConfigReady.containerAll.y - speed - obj1.getBoundingClientRect().height >= obj1.getBoundingClientRect().y)) {
+        //down
+        personOne.fixPositionMax('down', ConfigReady.containerElement)
+        lastDirectionFix['down'] = true;
+    }
+    else if(!(obj1.getBoundingClientRect().y-ConfigReady.containerAll.y >= speed)) {
+        //up
+        personOne.fixPositionMax('up', ConfigReady.containerElement)
+        lastDirectionFix['up'] = true;
+    }
+    else if(!(ConfigReady.containerAll.width+ConfigReady.containerAll.x-speed-obj1.getBoundingClientRect().width >= obj1.getBoundingClientRect().x)) {
+        //right
+        personOne.fixPositionMax('right', ConfigReady.containerElement)
+        lastDirectionFix['right'] = true;
+    }
+    else if(!(obj1.getBoundingClientRect().x-ConfigReady.containerAll.x >= speed)) {
+        //left
+        personOne.fixPositionMax('left', ConfigReady.containerElement)
+        lastDirectionFix['left'] = true;
+    }
+
+
+    wallArray.forEach((wall) => {
+            if(crossoverTester(obj1, wall.wallElement)) {
+                auxBoll = false;
+                wallTouched = wall.wallElement;
+            };
+        }
+    )
+
+    return [auxBoll, wallTouched];
+}
 
