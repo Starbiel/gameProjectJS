@@ -20,7 +20,7 @@ export const difficults = {
     hard: {
         playerSpeed: 2,
         moneyValue: 320,
-        speedSpawn: 4000,
+        speedSpawn: 20000,
         enemyLife: 150,
         enemySpeed: 1,
         speedEnemyShoot: 7,

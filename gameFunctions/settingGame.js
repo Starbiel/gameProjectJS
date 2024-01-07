@@ -32,14 +32,14 @@ export let ConfigReady = new Config("hard", [80, 60]);
 
 //arg function are html elements(obj);
 
-export function crossoverTester(obj1, obj2) {
+export function crossoverTester(obj1, obj2, speed = 0) {
     const ret1 = obj1.getBoundingClientRect();
     const ret2 = obj2.getBoundingClientRect();
     return (
-        ret1.left < ret2.left + ret2.width &&
-        ret1.left + ret1.width > ret2.left &&
-        ret1.top < ret2.top + ret2.height &&
-        ret1.top + ret1.height > ret2.top
+        ret1.left < ret2.left + ret2.width + speed &&
+        ret1.left + ret1.width > ret2.left + speed  &&
+        ret1.top < ret2.top + ret2.height + speed  &&
+        ret1.top + ret1.height > ret2.top + speed 
     );
 }
 
@@ -71,40 +71,43 @@ export function generateBullet(ang, gunElement) {
 }
 
 // elemento do player, array de parede, velocidade do player
-export function wallColition(obj1, wallArray, speed) {
+export function wallColition(obj1, wallArray, speed, direction) {
     let auxBoll = true;
     let wallTouched;
 
-    if(!(ConfigReady.containerAll.height+ConfigReady.containerAll.y - speed - obj1.getBoundingClientRect().height >= obj1.getBoundingClientRect().y)) {
+    if(!(ConfigReady.containerAll.height+ConfigReady.containerAll.y - speed - obj1.getBoundingClientRect().height >= obj1.getBoundingClientRect().y) && (direction == 'down')) {
         //down
-        personOne.fixPositionMax('down', ConfigReady.containerElement)
-        lastDirectionFix['down'] = true;
+
+        return [!auxBoll, ConfigReady.containerElement,direction]
     }
-    else if(!(obj1.getBoundingClientRect().y-ConfigReady.containerAll.y >= speed)) {
+    else if(!(obj1.getBoundingClientRect().y-ConfigReady.containerAll.y >= speed)  && (direction == 'up')) {
         //up
-        personOne.fixPositionMax('up', ConfigReady.containerElement)
-        lastDirectionFix['up'] = true;
+
+        return [!auxBoll, ConfigReady.containerElement,direction]
     }
-    else if(!(ConfigReady.containerAll.width+ConfigReady.containerAll.x-speed-obj1.getBoundingClientRect().width >= obj1.getBoundingClientRect().x)) {
+    else if(!(ConfigReady.containerAll.width+ConfigReady.containerAll.x-speed-obj1.getBoundingClientRect().width >= obj1.getBoundingClientRect().x) && (direction == 'right')) {
         //right
-        personOne.fixPositionMax('right', ConfigReady.containerElement)
-        lastDirectionFix['right'] = true;
+
+        return [!auxBoll, ConfigReady.containerElement,direction]
     }
-    else if(!(obj1.getBoundingClientRect().x-ConfigReady.containerAll.x >= speed)) {
+    else if(!(obj1.getBoundingClientRect().x-ConfigReady.containerAll.x >= speed)  && (direction == 'left')) {
         //left
-        personOne.fixPositionMax('left', ConfigReady.containerElement)
-        lastDirectionFix['left'] = true;
+
+        return [!auxBoll, ConfigReady.containerElement,direction]
     }
 
 
     wallArray.forEach((wall) => {
-            if(crossoverTester(obj1, wall.wallElement)) {
+            if(!(direction == 'left' || direction == 'down')) {
+                speed *= -1;
+            }
+            if(crossoverTester(obj1, wall.wallElement, speed)) {
                 auxBoll = false;
                 wallTouched = wall.wallElement;
             };
         }
     )
 
-    return [auxBoll, wallTouched];
+    return [auxBoll, wallTouched, direction];
 }
 
