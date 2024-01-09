@@ -5,12 +5,7 @@ import { walls } from './walls.js';
 
 let price = 0;
 let resultCross = [];
-export const lastDirectionFix = {
-    'left': false,
-    'right': false,
-    'up': false,
-    'down': false
-}
+
 
 export class Player {
     health = 100;
@@ -83,7 +78,7 @@ export class Player {
                         this.playerType.style.top = rect2.y + rect2.height + 1 + 'px'
                         break;
                     case 'down':
-                        this.playerType.style.top = rect2.y - this.playerType.getBoundingClientRect().height + 1 + 'px'
+                        this.playerType.style.top = rect2.y - this.playerType.getBoundingClientRect().height - 1 + 'px'
                         break;
                     case 'left':
                         this.playerType.style.left = rect2.x + rect2.width + 1 + 'px'
