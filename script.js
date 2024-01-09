@@ -1,7 +1,7 @@
 import { Player } from '/objectSets/playerSet.js';
 import { ConfigReady } from './gameFunctions/settingGame.js';
 import { Current_Game } from './gameFunctions/gameStatus.js';
-import { wallFunctions } from './gameFunctions/settingGame.js';
+import { wallFunctions } from './objectSets/walls.js';
 
 ConfigReady.createArea();
 
@@ -20,10 +20,8 @@ start.addEventListener('click', () => {
     currentGame.start();
 })
 
-// document.addEventListener('click', (event)=> {
-//     wallFunctions.enableEdition();
-//     wallFunctions.lineWall(event);
-// })
+wallFunctions.lineWall(event);
+
 
 pause.addEventListener('click', () => {
     currentGame.pause();

@@ -10,7 +10,7 @@ export class Coin {
         this.positionY = this.positionTop(coin);
     }
     destructor() {
-        this.coin.style.backgroundColor = 'transparent';
+        this.coin.remove();
     }
     positionTop(coin) {
         return coin.getBoundingClientRect().y;

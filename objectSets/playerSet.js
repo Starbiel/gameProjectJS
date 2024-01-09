@@ -1,8 +1,11 @@
-import { ConfigReady } from '../gameFunctions/settingGame.js';
+import { ConfigReady, wallColition } from '../gameFunctions/settingGame.js';
 import { ShootGun, Pistol  } from './guns.js';
 import { crossoverTester } from '../gameFunctions/settingGame.js';
+import { walls } from './walls.js';
 
 let price = 0;
+let resultCross = [];
+
 
 export class Player {
     health = 100;
@@ -45,12 +48,10 @@ export class Player {
     }
 
     take(coin) {
-        if(coin !== '') {
-            if(crossoverTester(this.playerType, coin.coin)) {
-                this.money += coin.value;
-                coin.destructor();
-                return true;
-            }
+        if(crossoverTester(this.playerType, coin.coin)) {
+            this.money += coin.value;
+            coin.destructor();
+            return true;
         }
     }
 
@@ -69,27 +70,44 @@ export class Player {
 
 
     //walk manipulation
-    fixPositionMax(position, type) {
-        if(position == 'x') {
-            if(type == '+') {
-                this.playerType.style.left = (ConfigReady.containerAll.width+ConfigReady.containerAll.x) - this.playerType.getBoundingClientRect().width + 'px';
-                this.positionX = ConfigReady.containerAll.width+ConfigReady.containerAll.x - this.playerType.getBoundingClientRect().width;
+    fixPositionMax(position, elementTouched) {
+            const rect2 = elementTouched.getBoundingClientRect();
+            if(elementTouched.id != 'container') {
+                switch (position) {
+                    case 'up':
+                        this.playerType.style.top = rect2.y + rect2.height + 1 + 'px'
+                        break;
+                    case 'down':
+                        this.playerType.style.top = rect2.y - this.playerType.getBoundingClientRect().height - 1 + 'px'
+                        break;
+                    case 'left':
+                        this.playerType.style.left = rect2.x + rect2.width + 1 + 'px'
+                        break;
+                    case 'right':
+                        this.playerType.style.left = rect2.x - this.playerType.getBoundingClientRect().width - 1 + 'px'
+                        break;
+                }
             }
             else {
-                this.playerType.style.left = ConfigReady.containerAll.x + 'px';
-                this.positionX = ConfigReady.containerAll.x;
+                switch (position) {
+                    case 'up':
+                        this.playerType.style.top = ConfigReady.containerAll.y + 1 + 'px';
+                        this.positionY = ConfigReady.containerAll.y + 1;
+                        break;
+                    case 'down':
+                        this.playerType.style.top = (ConfigReady.containerAll.y + ConfigReady.containerHeight - this.playerType.getBoundingClientRect().height - this.speed) - 1 + 'px'
+                        this.positionY = (ConfigReady.containerAll.y + ConfigReady.containerHeight - this.playerType.getBoundingClientRect().height - this.speed) - 1;
+                        break;
+                    case 'left':
+                        this.playerType.style.left = ConfigReady.containerAll.x + 'px'
+                        this.positionX = ConfigReady.containerAll.x;
+                        break;
+                    case 'right':
+                        this.playerType.style.left = (ConfigReady.containerAll.x + ConfigReady.containerAll.width - this.playerType.getBoundingClientRect().width) + 'px'
+                        this.positionX = ConfigReady.containerAll.x + ConfigReady.containerAll.width - this.playerType.getBoundingClientRect().width;
+                        break;
+                }
             }
-        }
-        else if(position == 'y') {
-            if(type == '+') {
-                this.playerType.style.top = (ConfigReady.containerAll.height+ConfigReady.containerAll.y) - this.playerType.getBoundingClientRect().height + 'px';
-                this.positionY = (ConfigReady.containerAll.height+ConfigReady.containerAll.y) - this.playerType.getBoundingClientRect().height;
-            }
-            else {
-                this.playerType.style.top = ConfigReady.containerAll.y + 'px';
-                this.positionY = ConfigReady.containerAll.y;
-            }
-        }
     }
 
     walk(position, type) {
@@ -114,41 +132,45 @@ export class Player {
     }
 
     //walk commands
-
+    
     walkLeft() {
-        if(this.positionX-ConfigReady.containerAll.x >= this.speed) {
-            this.walk('x','-')
-        }
-        else {
-            this.fixPositionMax('x','-');
-        } 
+            resultCross = wallColition(this.playerType, walls, this.speed, 'left');
+            if(resultCross[0]) {
+                this.walk('x','-')
+            }
+            else {
+                this.fixPositionMax(resultCross[2], resultCross[1]);
+            }
     }
 
     walkRight() {
-        if(ConfigReady.containerAll.width+ConfigReady.containerAll.x-this.speed-this.playerType.getBoundingClientRect().width >= this.positionX) {
-            this.walk('x', '+');
-        }
-        else {
-            this.fixPositionMax('x','+');
-        } 
+            resultCross = wallColition(this.playerType, walls, this.speed, 'right');
+            if(resultCross[0]) {
+                this.walk('x', '+');
+            }
+            else {
+                this.fixPositionMax(resultCross[2], resultCross[1]);
+            } 
     }
 
     walkUp() {
-        if(this.positionY-ConfigReady.containerAll.y >= this.speed) {
-            this.walk('y', '-');
-        }
-        else {
-            this.fixPositionMax('y','-');
-        }
+            resultCross = wallColition(this.playerType, walls, this.speed, 'up');
+            if(resultCross[0]) {
+                this.walk('y', '-');
+            }
+            else {
+                this.fixPositionMax(resultCross[2], resultCross[1]);
+            }
     }
 
     walkDown() {
-        if(ConfigReady.containerAll.height+ConfigReady.containerAll.y-this.speed-this.playerType.getBoundingClientRect().height >= this.positionY) {
-            this.walk('y', '+');
-        }
-        else {
-            this.fixPositionMax('y','+');
-        }  
+            resultCross = wallColition(this.playerType, walls, this.speed, 'down');
+            if(resultCross[0]) {
+                this.walk('y', '+');
+            }
+            else {
+                this.fixPositionMax(resultCross[2], resultCross[1]);
+            }  
     }
 
 }

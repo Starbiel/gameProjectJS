@@ -45,10 +45,12 @@ export class Current_Game {
                 if (keyPress['w']) this.personOne.walkUp();
                 if (keyPress['s']) this.personOne.walkDown();
                 this.coins.forEach(coin => {
+                    let i = 0;
                     if(this.personOne.take(coin)) {
                         moneyDiv.innerHTML = this.personOne.money;
-                        this.coins[coin.id] = '';
+                        this.coins.splice(i, 1);
                     };
+                    i++;
                 });
 
                 this.enemies.forEach(enemy => {

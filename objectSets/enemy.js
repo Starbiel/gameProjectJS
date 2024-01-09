@@ -2,7 +2,7 @@ import { Coin } from './coins.js';
 import { ConfigReady, generateCoins, tangToAng, generateBullet} from '../gameFunctions/settingGame.js';
 import { personOne } from '../script.js';
 import { crossoverTester } from '../gameFunctions/settingGame.js';
-
+import { walls } from './walls.js';
 class Enemy {
     setAux = '';
     life = ConfigReady.enemyLife;
@@ -15,7 +15,7 @@ class Enemy {
 
     death(dropCoin) {
         if(this.life <= 0) {
-            if (Math.floor(Math.random() * 100) < 33) {
+            if (Math.floor(Math.random() * 100) < 100) {
                 let newCoin = generateCoins(this.enemy.getBoundingClientRect().y, this.enemy.getBoundingClientRect().x)
                 dropCoin.push(new Coin(newCoin));
             }
@@ -130,6 +130,12 @@ export class GunEnemy extends Enemy {
                     div.remove();
                     clearInterval(interval);
             }
+            walls.forEach((wall) => {
+                if(crossoverTester(wall.wallElement, div)) {
+                    div.remove();
+                    clearInterval(interval);
+                }
+            })
             if(crossoverTester(div, player.playerType)) {
                 player.health -= 20;
                 lifeElement(personOne, 20)

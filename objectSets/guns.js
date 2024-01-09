@@ -1,5 +1,6 @@
 import { ConfigReady, crossoverTester, generateBullet } from '../gameFunctions/settingGame.js';
 import { tangToAng } from '../gameFunctions/settingGame.js';
+import { walls } from './walls.js';
 
 let mouseX = 0;
 let mouseY = 0;
@@ -49,6 +50,12 @@ class weapons {
                     div.remove();
                     clearInterval(interval);
             }
+            walls.forEach((wall) => {
+                if(crossoverTester(wall.wallElement, div)) {
+                    div.remove();
+                    clearInterval(interval);
+                }
+            })
             let i = 0
             enemies.forEach(inimigo => {
                 if (crossoverTester(div, inimigo.enemy)) {
