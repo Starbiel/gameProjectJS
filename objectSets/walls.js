@@ -15,13 +15,17 @@ class WallFunction {
 
     basicDiv(divClass, event) {
         let div = document.createElement('div');
-        div.classList.add(divClass)   
+        div.classList.add(divClass)
+        if(divClass == 'randomWall') {
+            div.style.width = (1 + Math.floor(Math.random() * 5)) + '%';
+            div.style.height = (1 + Math.floor(Math.random() * 5)) + '%';
+        }
         if(this.editionMode) {
             div.style.top = event.clientY + 'px';
             div.style.left = event.clientX + 'px';
         }
         else {
-            div.style.left = ((ConfigReady.containerAll.x+50) + Math.floor(Math.random() * (ConfigReady.containerAll.width-100))) + 'px';
+            div.style.left =  ConfigReady.containerAll.x + Math.floor(Math.random() * (ConfigReady.containerAll.width - div.clientWidth))  + 'px';
             div.style.top = ((ConfigReady.containerAll.y) + Math.floor(Math.random() * (ConfigReady.containerAll.height-100)))  + 'px';
         }
         document.querySelector('#container').appendChild(div);
@@ -30,6 +34,10 @@ class WallFunction {
 
     lineWall(event) {
         this.basicDiv('lineWall', event)
+    }
+
+    randomWall(event) {
+        this.basicDiv('randomWall', event);
     }
 }
 

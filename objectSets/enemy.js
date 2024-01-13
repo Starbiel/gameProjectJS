@@ -3,13 +3,17 @@ import { ConfigReady, generateCoins, tangToAng, generateBullet} from '../gameFun
 import { personOne } from '../script.js';
 import { crossoverTester } from '../gameFunctions/settingGame.js';
 import { walls } from './walls.js';
-class Enemy {
+import { Character } from './playerSet.js';
+
+class Enemy extends Character {
     setAux = '';
     life = ConfigReady.enemyLife;
     originalLife = ConfigReady.enemyLife;
     speed = ConfigReady.enemySpeed;
     damage = 20;
+
     constructor(enemyElement) {
+        super(enemyElement);
         this.enemy = enemyElement;
     }
 
@@ -64,29 +68,26 @@ export class BasicEnemy extends Enemy {
 
         //move for X plan
         if(personOne.playerType.getBoundingClientRect().x > this.enemy.getBoundingClientRect().x) {
-            this.enemy.style.left = this.enemy.getBoundingClientRect().x + this.speed + 'px';
+            this.walkRight()
         }
         else if(personOne.playerType.getBoundingClientRect().x < this.enemy.getBoundingClientRect().x) {
-            this.enemy.style.left = this.enemy.getBoundingClientRect().x - this.speed + 'px';
+            this.walkLeft()
         }
         
         //move for y plan usign the ang
-        if(tgAng > this.speed) {
-            this.enemy.style.top = this.enemy.getBoundingClientRect().y - this.speed + 'px';
+        if(tgAng > 0) {
+            this.walkUp()
         }
-        else if(tgAng < -this.speed) {
-            this.enemy.style.top = this.enemy.getBoundingClientRect().y + this.speed + 'px';
+        else if(tgAng < 0) {
+            this.walkDown()
         }
         else if(tgAng == 0) {
             if(personOne.playerType.getBoundingClientRect().y > this.enemy.getBoundingClientRect().y) {
-                this.enemy.style.top = this.enemy.getBoundingClientRect().y + this.speed + 'px';
+                this.walkDown();
             }
             else {
-                this.enemy.style.top = this.enemy.getBoundingClientRect().y - this.speed + 'px';
+                this.walkUp();
             }
-        }
-        else {
-            this.enemy.style.top = this.enemy.getBoundingClientRect().y - (tgAng*this.speed) + 'px';
         }
     }
 }
@@ -143,7 +144,7 @@ export class GunEnemy extends Enemy {
                     personOne.death();
                 }
                 div.remove();
-                ClearInterval(interval);
+                clearInterval(interval);
             }
         }, 10);
     }

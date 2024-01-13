@@ -96,3 +96,8 @@ button:hover {
     height: 2px;
     background-color: black;
 }
+
+.randomWall {
+    position: fixed;
+    background-color: black;
+}

@@ -20,7 +20,7 @@ start.addEventListener('click', () => {
     currentGame.start();
 })
 
-wallFunctions.lineWall(event);
+wallFunctions.randomWall()
 
 
 pause.addEventListener('click', () => {
