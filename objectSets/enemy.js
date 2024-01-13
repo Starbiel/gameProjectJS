@@ -14,23 +14,22 @@ class Enemy extends Character {
 
     constructor(enemyElement) {
         super(enemyElement);
-        this.enemy = enemyElement;
     }
 
     death(dropCoin) {
         if(this.life <= 0) {
             if (Math.floor(Math.random() * 100) < 100) {
-                let newCoin = generateCoins(this.enemy.getBoundingClientRect().y, this.enemy.getBoundingClientRect().x)
+                let newCoin = generateCoins(this.playerType.getBoundingClientRect().y, this.playerType.getBoundingClientRect().x)
                 dropCoin.push(new Coin(newCoin));
             }
-            this.enemy.remove();
+            this.playerType.remove();
             clearInterval(this.setAux);
             return true;
         } 
     }
 
     attackPlayer() {
-        if(crossoverTester(this.enemy, personOne.playerType)) {
+        if(crossoverTester(this.playerType, personOne.playerType)) {
             if(this.setAux == '') {
                 personOne.health -= this.damage;
                 lifeElement(personOne, this.damage)
@@ -57,20 +56,20 @@ export class BasicEnemy extends Enemy {
     name = 'enemyNoGun';
     runToPlayer() {
         let tgAng = 0;
-        if(personOne.playerType.getBoundingClientRect().x != this.enemy.getBoundingClientRect().x) {
-            tgAng = (personOne.playerType.getBoundingClientRect().y - this.enemy.getBoundingClientRect().y)/(personOne.playerType.getBoundingClientRect().x-this.enemy.getBoundingClientRect().x);
+        if(personOne.playerType.getBoundingClientRect().x != this.playerType.getBoundingClientRect().x) {
+            tgAng = (personOne.playerType.getBoundingClientRect().y - this.playerType.getBoundingClientRect().y)/(personOne.playerType.getBoundingClientRect().x-this.playerType.getBoundingClientRect().x);
         }
         //fix the angle
-        if((personOne.playerType.getBoundingClientRect().y > this.enemy.getBoundingClientRect().y && personOne.playerType.getBoundingClientRect().x > this.enemy.getBoundingClientRect().x)||
-        (personOne.playerType.getBoundingClientRect().y < this.enemy.getBoundingClientRect().y && personOne.playerType.getBoundingClientRect().x > this.enemy.getBoundingClientRect().x)) {
+        if((personOne.playerType.getBoundingClientRect().y > this.playerType.getBoundingClientRect().y && personOne.playerType.getBoundingClientRect().x > this.playerType.getBoundingClientRect().x)||
+        (personOne.playerType.getBoundingClientRect().y < this.playerType.getBoundingClientRect().y && personOne.playerType.getBoundingClientRect().x > this.playerType.getBoundingClientRect().x)) {
             tgAng = tgAng*-1;
         }
 
         //move for X plan
-        if(personOne.playerType.getBoundingClientRect().x > this.enemy.getBoundingClientRect().x) {
+        if(personOne.playerType.getBoundingClientRect().x > this.playerType.getBoundingClientRect().x) {
             this.walkRight()
         }
-        else if(personOne.playerType.getBoundingClientRect().x < this.enemy.getBoundingClientRect().x) {
+        else if(personOne.playerType.getBoundingClientRect().x < this.playerType.getBoundingClientRect().x) {
             this.walkLeft()
         }
         
@@ -82,7 +81,7 @@ export class BasicEnemy extends Enemy {
             this.walkDown()
         }
         else if(tgAng == 0) {
-            if(personOne.playerType.getBoundingClientRect().y > this.enemy.getBoundingClientRect().y) {
+            if(personOne.playerType.getBoundingClientRect().y > this.playerType.getBoundingClientRect().y) {
                 this.walkDown();
             }
             else {
@@ -100,8 +99,8 @@ export class GunEnemy extends Enemy {
         this.gunElement = element
     }
     aimPlayer(player) {
-        let deltaY = (player.y)-(this.enemy.getBoundingClientRect().y);
-        let deltaX = (player.x)-(this.enemy.getBoundingClientRect().x);
+        let deltaY = (player.y)-(this.playerType.getBoundingClientRect().y);
+        let deltaX = (player.x)-(this.playerType.getBoundingClientRect().x);
         this.ang = (deltaY)/(deltaX);
         this.ang = tangToAng(this.ang);
         //fix the angle

@@ -58,7 +58,7 @@ class weapons {
             })
             let i = 0
             enemies.forEach(inimigo => {
-                if (crossoverTester(div, inimigo.enemy)) {
+                if (crossoverTester(div, inimigo.playerType)) {
                         inimigo.life -= this.damage;
                         lifeElement(inimigo, this.damage);
                         if (inimigo.death(Coins)) {
@@ -97,9 +97,9 @@ export class ShootGun extends weapons {
 
 //Object and number
 function lifeElement(object, damage) {
-    const divLife = object.enemy.children;
+    const divLife = object.playerType.children;
     let widthLenght = divLife[0].offsetWidth
-    let parentWidth = object.enemy.offsetWidth;
+    let parentWidth = object.playerType.offsetWidth;
     let lossLifePor = 100 - 100*((object.originalLife-damage)/object.originalLife);
     widthLenght = Math.round(100 * widthLenght / parentWidth);
     divLife[0].style.width = widthLenght - lossLifePor + "%";
