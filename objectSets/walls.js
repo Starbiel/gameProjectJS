@@ -1,11 +1,16 @@
 import { ConfigReady } from "../gameFunctions/settingGame.js";
+
+//FEITO => src/model/Wall -> Para criar, use: new Wall({type: typeValue})
 export class Wall {
     constructor(elementWall) {
         this.wallElement = elementWall;
     }
 }
 
+//FEITO => src/WallController -> Para acessar, use: wallController.walls
 export const walls = [];
+
+//FEITO => src/WallController -> Para criar, use: new WallController()
 class WallFunction {
     editionMode = false;
 
@@ -13,6 +18,7 @@ class WallFunction {
         this.editionMode = true;
     }
 
+    //FEITO => src/WallController -> Para acessar, use: wallController.create({type: typeValue, event: eventValue})
     basicDiv(divClass, event) {
         let div = document.createElement('div');
         div.classList.add(divClass)
@@ -32,13 +38,18 @@ class WallFunction {
         walls.push(new Wall(div));
     }
 
+    //FEITO => src/WallController 
+    //Para acessar, use: wallController.create({type: valueType, event: valueType}), sendo typeValue = "line"
     lineWall(event) {
         this.basicDiv('lineWall', event)
     }
 
+    //FEITO => src/WallController 
+    //Para acessar, use: wallController.create({type: valueType, event: valueType}), sendo typeValue = "random"
     randomWall(event) {
         this.basicDiv('randomWall', event);
     }
 }
 
+//FEITO => src/WallController -> Para acessar, use: wallController
 export let wallFunctions = new WallFunction;

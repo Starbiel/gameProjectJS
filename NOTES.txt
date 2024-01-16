@@ -1,0 +1,4 @@
+ATUALIZAR => Precisa de melhorias
+FEITO => Já foi atualizado. Usado apenas em arquivos antigos
+FALTA => Não foi atualizado. Usado apenas e arquivos antigos
+RENOMEADO => Mudou de nome :o
